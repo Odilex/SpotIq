@@ -1,0 +1,50 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isImageType() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    function isValidFileSize() {
+      return request.resource.size <= 5 * 1024 * 1024; // 5MB max
+    }
+
+    // Profile images
+    match /users/{userId}/profile.{extension} {
+      allow read: if true;
+      allow write: if isAuthenticated() && 
+        request.auth.uid == userId && 
+        isImageType() && 
+        isValidFileSize();
+    }
+
+    // Activity images
+    match /activities/{activityId}/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin() && 
+        isImageType() && 
+        isValidFileSize();
+    }
+
+    // Review images
+    match /reviews/{reviewId}/{imageId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+        isImageType() && 
+        isValidFileSize();
+      allow delete: if isAuthenticated() && 
+        (resource.metadata.userId == request.auth.uid || isAdmin());
+    }
+  }
+} 
