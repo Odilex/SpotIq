@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import NextImage, { ImageProps } from 'next/image'
-import { LoadingSkeleton } from './loading-states'
+import { LoadingSpinner } from './loading-states'
 import { ImageOff } from 'lucide-react'
 
 export const Image = (props: ImageProps) => {
@@ -23,7 +23,7 @@ export const Image = (props: ImageProps) => {
   return (
     <div className="relative">
       {isLoading && (
-        <LoadingSkeleton 
+        <LoadingSpinner 
           className={`absolute inset-0 ${props.className}`} 
         />
       )}

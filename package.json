@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/mapbox-gl": "^3.4.1",
+    "clsx": "^2.1.1",
+    "mapbox-gl": "^3.8.0",
+    "tailwind-merge": "^2.5.5"
+  }
+}

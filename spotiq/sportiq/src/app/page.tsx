@@ -7,7 +7,7 @@ import { useAnimations } from '@/hooks/useAnimations'
 import { MapPin, Star, Quote, Mail, ArrowRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Map from '@/components/map'
-import { LoadingCard, LoadingDots } from '@/components/ui/loading-states'
+import { LoadingSpinner } from '@/components/ui/loading-states'
 
 // Sample data (you can move this to a separate file later)
 const destinations = [
@@ -107,7 +107,7 @@ export default function Home() {
     return (
       <div className="min-h-screen p-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         {[...Array(6)].map((_, i) => (
-          <LoadingCard key={i} />
+          <LoadingSpinner key={i} />
         ))}
       </div>
     )

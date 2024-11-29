@@ -1,15 +1,14 @@
 'use client'
 
 import { AuthButton } from '@/components/ui/auth-button'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 
 export function SocialAuthButtons() {
-  const { signInWithGoogle } = useAuth()
+  const { signInWithGoogle, signInWithApple } = useAuth()
 
   return (
     <div className="space-y-3">
       <AuthButton
-        variant="outline"
         provider="Google"
         onAuth={signInWithGoogle}
         className="w-full"
@@ -38,6 +37,22 @@ export function SocialAuthButtons() {
           />
         </svg>
         Continue with Google
+      </AuthButton>
+
+      <AuthButton
+        provider="Apple"
+        onAuth={signInWithApple}
+        className="w-full bg-black hover:bg-black/90"
+      >
+        <svg
+          className="w-5 h-5 mr-2"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M17.05 20.28c-.98.954-2.054 1.154-3.097 1.154-1.095 0-2.23-.954-3.248-1.154-1.095 0-2.14.954-3.097 1.154-1.018 0-1.953-.954-3.097-1.154C2.384 18.568 1.05 14.915 1.05 11.71c0-4.52 3.248-6.504 5.93-6.504 1.196 0 2.316.954 3.248 1.154.856 0 1.953-.954 3.248-1.154 1.196 0 2.292.954 3.248 1.154.932 0 2.054-.954 3.097-1.154 2.682 0 5.93 1.984 5.93 6.504 0 3.205-1.335 6.858-3.462 8.57-1.144.2-2.079 1.154-3.097 1.154-.932 0-2.054-.954-3.097-1.154z" />
+        </svg>
+        Continue with Apple
       </AuthButton>
     </div>
   )

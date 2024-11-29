@@ -1,48 +1,43 @@
 'use client'
 
 import { createContext, useContext, useState } from 'react'
-import { Toast, ToastType } from '@/components/ui/toast'
 import { AnimatePresence, motion } from 'framer-motion'
 
+type ToastType = 'success' | 'error' | 'info'
+
 interface ToastContextType {
-  showToast: (message: string, type: ToastType) => void
+  showToast: (message: string, type?: ToastType) => void
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined)
 
-interface Toast {
-  id: number
-  message: string
-  type: ToastType
-}
-
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<Toast[]>([])
+  const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null)
 
-  const showToast = (message: string, type: ToastType) => {
-    const id = Date.now()
-    setToasts(prev => [...prev, { id, message, type }])
-  }
-
-  const removeToast = (id: number) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id))
+  const showToast = (message: string, type: ToastType = 'info') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
   }
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
-        <AnimatePresence mode="sync">
-          {toasts.map(toast => (
-            <Toast
-              key={toast.id}
-              message={toast.message}
-              type={toast.type}
-              onClose={() => removeToast(toast.id)}
-            />
-          ))}
-        </AnimatePresence>
-      </div>
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className={`fixed bottom-4 right-4 p-4 rounded-lg text-white ${
+              toast.type === 'error' ? 'bg-red-500' :
+              toast.type === 'success' ? 'bg-green-500' :
+              'bg-blue-500'
+            }`}
+          >
+            {toast.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ToastContext.Provider>
   )
 }

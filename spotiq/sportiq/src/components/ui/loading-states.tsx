@@ -1,47 +1,26 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
-export const LoadingSpinner = () => (
-  <motion.div
-    className="w-6 h-6 border-2 border-light/20 border-t-light rounded-full"
-    animate={{ rotate: 360 }}
-    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-  />
-)
-
-export const LoadingDots = () => (
-  <div className="flex gap-1">
-    {[...Array(3)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="w-2 h-2 bg-light rounded-full"
-        initial={{ opacity: 0.3 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          duration: 0.5,
-          repeat: Infinity,
-          repeatType: "reverse",
-          delay: i * 0.2
-        }}
+export function LoadingSpinner({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
       />
-    ))}
-  </div>
-)
-
-export const LoadingSkeleton = ({ className = "" }: { className?: string }) => (
-  <motion.div
-    className={`bg-light/10 rounded-lg ${className}`}
-    animate={{ opacity: [0.3, 0.6, 0.3] }}
-    transition={{ duration: 1.5, repeat: Infinity }}
-  />
-)
-
-export const LoadingCard = () => (
-  <div className="bg-slate/10 rounded-lg p-4 space-y-4">
-    <LoadingSkeleton className="h-48 w-full" />
-    <LoadingSkeleton className="h-6 w-3/4" />
-    <LoadingSkeleton className="h-4 w-full" />
-    <LoadingSkeleton className="h-4 w-5/6" />
-  </div>
-) 
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
+    </svg>
+  )
+} 

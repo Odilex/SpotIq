@@ -6,16 +6,18 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { SocialAuthButtons } from '@/app/(auth)/social-auth-buttons'
-import { useAuth } from '@/hooks/useAuth'
+import { SocialAuthButtons } from '@/app/auth/social-auth-buttons'
+import { useAuth } from '@/contexts/auth-context'
+import { useToast } from '@/contexts/toast-context'
 
-export default function RegisterPage() {
+export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { signUp } = useAuth()
+  const { showToast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,6 +25,8 @@ export default function RegisterPage() {
     try {
       await signUp(email, password, name)
       router.push('/dashboard')
+    } catch (error) {
+      showToast('Signup failed. Please try again.', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -66,17 +70,16 @@ export default function RegisterPage() {
           <Button
             type="submit"
             className="w-full"
-            isLoading={isLoading}
-            loadingText="Creating account..."
+            disabled={isLoading}
           >
-            Create account
+            {isLoading ? 'Creating account...' : 'Sign up'}
           </Button>
         </form>
 
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-light/20"></div>
+              <div className="w-full border-t border-light/20" />
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-dark text-light/70">
