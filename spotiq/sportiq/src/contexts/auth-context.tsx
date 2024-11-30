@@ -19,7 +19,7 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase/config'
 import { useRouter } from 'next/navigation'
-import { useToast } from './toast-context'
+import { useToast } from '@/contexts/toast-context'
 
 interface AuthContextType {
   user: User | null
@@ -172,4 +172,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
-} 
+}  

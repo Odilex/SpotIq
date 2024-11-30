@@ -42,8 +42,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>
-          <ToastProvider>
+        <ToastProvider>
+          <AuthProvider>
             <div className="flex flex-col min-h-screen bg-gradient-to-b from-dark to-slate">
               {!isAuthPage && (
                 <motion.header
@@ -61,8 +61,8 @@ export default function RootLayout({
 
               {!isAuthPage && <Footer />}
             </div>
-          </ToastProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   )
