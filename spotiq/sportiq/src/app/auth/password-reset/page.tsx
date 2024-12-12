@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 import Link from 'next/link'
 
 export default function ResetPasswordPage() {
